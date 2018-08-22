@@ -1,14 +1,6 @@
 import chapter3._
-//import chapter3.Printable._
-
-//import cats.syntax.functor._
-//
-//Tree.branch(Leaf(1), Leaf(2)).map(_ * 2)
-//Tree.leaf(100).map(_ * 2)
-//
-//format("hello")
-//
-//format(true)
+import chapter3.Codec._
+import chapter3.Printable._
 
 final case class Box[A](value: A)
 
@@ -18,6 +10,26 @@ implicit def boxStringPrintable(implicit printable: Printable[String]): Printabl
 implicit def boxBooleanPrintable(implicit printable: Printable[Boolean]): Printable[Box[Boolean]] =
   printable.contramap[Box[Boolean]](b => b.value)
 
-chapter3.Printable.format("Hello world")
+format("Hello world")
 
-//format(Box(true))
+format(Box(true))
+
+implicit val stringCodec = new Codec[String] {
+  def encode(value: String) = value
+
+  def decode(value: String) = value
+}
+
+implicit val intCodec: Codec[Int] = stringCodec.imap[Int](_.toInt, _.toString)
+implicit val doubleCodec: Codec[Double] = stringCodec.imap[Double](_.toDouble, _.toString)
+
+implicit def boxCodec[A](implicit c: Codec[A]): Codec[Box[A]] =
+  c.imap[Box[A]](Box(_), _.value)
+
+encode(123.4)
+
+decode[Double]("123.4")
+
+encode(Box(123.4))
+
+decode[Box[Double]]("123.4")
