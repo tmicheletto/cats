@@ -11,10 +11,26 @@ plugins {
 
 dependencies {
     compile 'org.scala-lang:scala-library:2.12.6'
+    // https://mvnrepository.com/artifact/com.lihaoyi/ammonite
+    compile group: 'com.lihaoyi', name: 'ammonite_2.12.6', version: '1.1.2-39-903d7d2'
+    // https://mvnrepository.com/artifact/com.lihaoyi/ammonite-ops
+    compile group: 'com.lihaoyi', name: 'ammonite-ops_2.12', version: '1.1.2-39-903d7d2'
+    // https://mvnrepository.com/artifact/com.lihaoyi/ammonite-compiler
+    compile group: 'com.lihaoyi', name: 'ammonite-compiler_2.12.6', version: '1.1.0-18-0dc8a8e'
+    // https://mvnrepository.com/artifact/com.lihaoyi/ammonite-runtime
+    compile group: 'com.lihaoyi', name: 'ammonite-runtime_2.12', version: '1.1.2-39-903d7d2'
     // https://mvnrepository.com/artifact/org.typelevel/cats-core
     compile group: 'org.typelevel', name: 'cats-core_2.12', version: '1.2.0'
 
 
+}
+
+uploadArchives {
+    repositories {
+        flatDir {
+            dirs 'repos'
+        }
+    }
 }
 
 // In this section you declare where to find the dependencies of your project
